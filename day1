@@ -1,0 +1,50 @@
+Day 1 环境搭建与仿真建立
+环境：使用vscode中的Digital IDE 硬件搭建平台来完成fpga学习，比传统Quartus更加简便直观
+该IDE需要一个外部插件，通过 https://bleyer.org/icarus/ 网址进入，选择最新版下载即可，之后通过设置导入该环境路径即可
+代码实现：
+与门：
+module and_gate (
+ input wire a,
+ input wire b,
+ output wire y
+ );
+ assign y = a & b;
+ endmodule
+仿真代码实现：
+`timescale 1ns/1ps
+ module tb_and_gate();
+ 
+    //信号声明
+    reg tb_a;
+    reg tb_b;
+    wire tb_y;
+ 
+    //实例化DUT
+    and_gate UUT (.a(tb_a), .b(tb_b), .y(tb_y));
+ 
+    //产生激励
+    initial begin
+        $dumpfile("and_gate.vcd");
+        $dumpvars(0, tb_and_gate);
+        $display(" Simulation Start ");
+        tb_a = 0;
+        tb_b = 0;
+        #10;
+        tb_a = 0;
+        tb_b = 1;
+        #10;
+        tb_a = 1;
+        tb_b = 0;
+        #10;
+        tb_a = 1;
+        tb_b = 1;
+        #10;
+        $finish;
+    end
+ 
+    //监控结果
+    initial begin
+        $monitor("Time = %0t ns, a = %b, b = %b, y = %b", $time, tb_a, tb_b, tb_y);
+    end
+ endmodule
+至此便可以直观看到fpga代码仿真效果
