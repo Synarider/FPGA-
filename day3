@@ -26,3 +26,13 @@ always @(*) begin
  end
  endmodule
 
+3.时序逻辑:输出不仅与当前输入有关，还和电路之前时间内的状态有关，状态一般在时钟边沿更新
+敏感列表：always @(posedge clk) (时钟上升沿触发)
+示例:带异步复位的D触发器(DFF)
+module dff_async_reset (input clk, rst_n, d, output reg q);
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) q <= 1'b0;
+        else q <= d;
+    end
+endmodule
+
