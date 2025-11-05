@@ -1,0 +1,27 @@
+Day2
+Verilog采取四值逻辑系统：即定义的变量只能等于这几个值
+0：逻辑低
+1: 逻辑高
+x : 未知，信号的初始值
+z : 高阻态，表示没有驱动源连接
+
+网线类型：wire
+在Verilog中，一个变量只能储存0或1，但可通过自行开多位来储存，格式为 wire [7:0]data_bus
+赋值示例 ： assign(类似一根导线，作用为源源不断给wire类型变量赋值，但本身wire变量不储存任何数值) data_bus[0] = a & b 
+
+变量类型：reg
+reg只负责定义变量，但是赋值要在过程块(always,initial)中被赋值
+定义方法：1.always @(posedge clk) : 寄存器
+          2. always @(*) : 描述组合逻辑时 : 导线 wire ; 描述不完整逻辑时 : 锁存器(尽量避免)
+
+其他：integer:32位有符号整数变量，用于for循环
+parameter : 定义常量
+
+向量(wector): 表示多位的wire或reg如 reg [7:0]data
+使用示例：比如要表示数字8，即1000，应写 reg [3:0]data
+赋值流程：
+reg [3:0]data;//0000
+always @(*) begin
+    a = 8;
+end
+          
