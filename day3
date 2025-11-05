@@ -1,0 +1,12 @@
+Day3
+行为建模与电路设计
+1.过程块：initial 和 always
+initial块：仿真开始时执行，且只执行一次，主要用于testbench
+always块：根据敏感列表的触发条件重复执行，主要用于RTL
+initial写法：
+initial begin
+
+end
+
+2.组合逻辑：仅由当前输入决定当前输出，时间点输入与输出一一对应，有点类似函数
+敏感列表：always @(*); *表示块内所有被读取信号都是敏感的，
