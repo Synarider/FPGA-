@@ -33,3 +33,4 @@ end
 赋值方法：
 wire reg [3:0]data_bus[0:7]
 assign data_bus[0] = 4'b1010;数组第一个数值为二进制1010
+
