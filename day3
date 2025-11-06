@@ -36,3 +36,28 @@ module dff_async_reset (input clk, rst_n, d, output reg q);
     end
 endmodule
 
+解析上述代码：
+非阻塞赋值：<=,适合于时序逻辑，所有赋值并行执行，在always块结束时统一赋值
+阻塞赋值：=，适合于组合逻辑，所有赋值顺序执行
+
+·阻塞赋值：
+always @(posedge clk) begin
+    a = b;      // 第1步：a立即获得b的值
+    b = a;      // 第2步：b立即获得a的值（此时a已经是b的值）
+end
+此时相当于什么都没换，b还是它本身
+
+·非阻塞赋值
+always @(posedge clk) begin
+    a <= b;     // 计划：a将获得b的当前值
+    b <= a;     // 计划：b将获得a的当前值
+end
+// 在always块结束时，所有计划同时生效
+此时两个语句同时执行，完成a和b的值的交换
+
+异步复位和同步复位的区别：
+posedge: 上升沿           negedge:下降沿         clk:代表时钟          rst_n:代表复位键
+posedge clk or negedge rst_n：此时为异步复位，由于时钟边沿和复位边沿不完全重合，但此时同时检测两个边沿，只要复位键触发下降沿就会被立刻检测
+posedge clk：此时为同步复位，按下复位键后检测到下降沿后不会立刻做出反应，而是等时钟沿也到上升沿时再触发，会有一定延迟
+if (!rst_n) q <= 1'b0 ：只要复位键为0，那么 ！rst_n = 1,此时给q直接赋值0，否则就赋值d
+
